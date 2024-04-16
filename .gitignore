@@ -1,0 +1,6 @@
+wordpress-data/
+wordpress-data-backup/
+db-data/
+db-data-backup/
+db-initial-data/
+.env

@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  wordpress:
+    image: wordpress:6.5.2-php8.1
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - wordpress-data:/var/www/html/:rw
+  
+  db:
+    image: mysql:5.7
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: wpdb
+      MYSQL_USER: wpuser
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: admin
+    volumes:
+      - db-data:/var/lib/mysql:rw
+      - db-initial-data:/docker-entrypoint-initdb.d
+  
+  phpmyadmin:
+    image: phpmyadmin
+    ports:
+      - 8080:80
+    links:
+      - db
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      PMA_USER: wpuser
+      PMA_PASSWORD: password
+
+volumes:
+  db-data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./db-data
+
+  db-initial-data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./db-initial-data
+
+  wordpress-data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./wordpress-data
