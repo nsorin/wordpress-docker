@@ -1,6 +1,6 @@
-# Local Wordpress development environment with Docker
+# Wordpress-Docker
 
-A set of utilities to quickly clone a remotely hosted wordpress website and run it in docker for local development.
+A set of utilities to quickly clone a remotely hosted wordpress website and run it in docker to experiment on it locally.
 
 ## Prerequisites
 

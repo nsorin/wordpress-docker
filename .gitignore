@@ -1,5 +1,8 @@
-wordpress-data/
-db-data/
-db-initial-data/
+wordpress-data/*
+!wordpress-data/.gitkeep
+db-data/*
+!db-data/.gitkeep
+db-initial-data/*
+!db-initial-data/.gitkeep
 .env
 wordpress/wp-config.php
