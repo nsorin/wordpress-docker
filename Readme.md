@@ -44,9 +44,9 @@ define( 'WPCACHEHOME', '/var/www/html/wp-content/plugins/wp-super-cache/' );
 - Run `docker compose up`
 
 The build process will:
-    - Setup a new MySQL Database and import the data from `db-initial-data`
-    - Download your website's entire source code in the wordpress service, then replace the config with the local one. This can take a long time depending on the size of your website and the speed of your internet connection.
+- Setup a new MySQL Database and import the data from `db-initial-data`    
+- Download your website's entire source code in the wordpress service, then replace the config with the local one. This can take a long time depending on the size of your website and the speed of your internet connection.
 
 Once everything is up and running, the website should be available at `http://localhost` and phpMyAdmin at `http://localhost:8080`. Use the usual admin account credentials to log in. Any change to the local copy of the website will be saved locally.
 
-To reimport the source code from the webserver, use `docker compose build wordpress --no-cache`.
+To reimport the source code from the webserver, delete the content of `wordpress-data` and use `docker compose build wordpress --no-cache`. Alternatively, simply run `rebuild-from-remote.sh` (as `sudo` if needed).

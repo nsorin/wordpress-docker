@@ -7,11 +7,9 @@ ARG SERVER_PATH
 
 RUN set -ex; \
 	apt-get update; \
-	apt-get install -y openssh-client;
+	apt-get install -y openssh-client rsync;
 
-RUN rm -rf /var/www/html/* /var/www/html/.htaccess;
-
-RUN --mount=type=secret,id=ssh_key,required scp -i /run/secrets/ssh_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r -P $SERVER_PORT $SERVER_USER@$SERVER_HOST:$SERVER_PATH/. /var/www/html/
+RUN --mount=type=secret,id=ssh_key,required rsync -e "ssh -p ${SERVER_PORT} -i /run/secrets/ssh_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" --delete -r $SERVER_USER@$SERVER_HOST:$SERVER_PATH/ /var/www/html/
 
 ADD wp-config.php /var/www/html/
 
