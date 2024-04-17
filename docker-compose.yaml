@@ -3,11 +3,11 @@ version: '3.8'
 services:
   wordpress:
     image: wordpress:6.5.2-php8.1
-    ports:
-      - "80:80"
-      - "443:443"
     volumes:
       - wordpress-data:/var/www/html/:rw
+    ports:
+      - 80:80
+      - 443:443
   
   db:
     image: mysql:5.7

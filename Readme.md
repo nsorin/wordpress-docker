@@ -12,7 +12,7 @@ A set of utilities to quickly clone a remotely hosted wordpress website and run 
 - Copy `.env.example` as `.env` and fill in the blanks (this should point to the location where wordpress is hosted)
 - Run `pull-from-server.sh` to create the directory structure and download the website from the server
 - Export your productive database in an SQL file and put it in `db-initial-data`
-- Check the `wordpress-data/wp-config.php` file and replace the following values:
+- Check the `wordpress-data/wp-config.php` file and set the following values:
 ```
 define( 'DB_NAME', 'wpdb' );
 
@@ -24,6 +24,9 @@ define( 'DB_PASSWORD', 'password' );
 
 /** Database hostname */
 define( 'DB_HOST', 'db' );
+
+define( 'WP_SITEURL', 'http://localhost' );
+define( 'WP_HOME',    'http://localhost' );
 ```
 - Also check for anything that would not work locally, for instance absolute paths:
 ```

@@ -17,9 +17,9 @@ mv wordpress-data/* wordpress-data-backup/
 mv db-data/* db-data-backup/
 
 echo "Downloading files from $SERVER_HOST:$SERVER_PATH..."
-scp -r -P $SERVER_PORT $SERVER_USER@$SERVER_HOST:$SERVER_PATH/* wordpress-data
+scp -r -P $SERVER_PORT $SERVER_USER@$SERVER_HOST:$SERVER_PATH/. wordpress-data
 
-echo "Setting permissions on php files..."
-find wordpress-data -name "*.php" -exec chmod 644 {} \;
+echo "Setting ownership of webserver files..."
+chown -R www-data wordpress-data/.
 
 echo "DONE - Don't forget to check and fix wordpress-data/wp-config.php"
