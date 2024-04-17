@@ -5,14 +5,18 @@ A set of utilities to quickly clone a remotely hosted wordpress website and run 
 ## Prerequisites
 
 - A working docker and docker-compose installation
-- An SSH connection to the server where the wordpress website is hosted with the necessary credentials
+- An SSH key whose public counterpart has been registered on the server where wordpress is hosted
 
 ## How to run
 
 - Copy `.env.example` as `.env` and fill in the blanks (this should point to the location where wordpress is hosted)
-- Run `pull-from-server.sh` to create the directory structure and download the website from the server
-- Export your productive database in an SQL file and put it in `db-initial-data`
-- Check the `wordpress-data/wp-config.php` file and set the following values:
+    - SERVER_HOST: The domain name or IP Address of your webserver
+    - SERVER_PORT: The port which is open to ssh connections on your webserver, typically 22
+    - SERVER_USER: The user on the webserver
+    - SERVER_PATH: The path on the webserver where the website is located
+    - SSH_KEY_PATH: The path to your private SSH key on your local machine. This is the key you normally use to connect to the webserver via SSH on your machine.
+- Export your productive database in an SQL file and put it in `db-initial-data` (TODO: Automate this process)
+- Copy your remote `wp-config.php` in the `wordpress` directory and set the following values:
 ```
 define( 'DB_NAME', 'wpdb' );
 
@@ -25,6 +29,7 @@ define( 'DB_PASSWORD', 'password' );
 /** Database hostname */
 define( 'DB_HOST', 'db' );
 
+define('FS_METHOD', 'direct');
 define( 'WP_SITEURL', 'http://localhost' );
 define( 'WP_HOME',    'http://localhost' );
 ```
@@ -38,4 +43,10 @@ define( 'WPCACHEHOME', '/var/www/html/wp-content/plugins/wp-super-cache/' );
 ```
 - Run `docker compose up`
 
-The website should be available at `http://localhost` and phpMyAdmin at `http://localhost:8080`. Any change to the local copy of the website will be saved locally.
+The build process will:
+    - Setup a new MySQL Database and import the data from `db-initial-data`
+    - Download your website's entire source code in the wordpress service, then replace the config with the local one. This can take a long time depending on the size of your website and the speed of your internet connection.
+
+Once everything is up and running, the website should be available at `http://localhost` and phpMyAdmin at `http://localhost:8080`. Use the usual admin account credentials to log in. Any change to the local copy of the website will be saved locally.
+
+To reimport the source code from the webserver, use `docker compose build wordpress --no-cache`.
