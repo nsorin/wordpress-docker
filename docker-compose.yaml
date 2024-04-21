@@ -14,6 +14,8 @@ services:
       - 443:443
     volumes:
       - wordpress-data:/var/www/html/:rw
+    depends_on:
+      - db
   
   db:
     image: mysql:5.7

@@ -5,6 +5,7 @@ ARG SERVER_PORT
 ARG SERVER_USER
 ARG SERVER_PATH
 
+RUN docker-php-ext-install mysqli pdo pdo_mysql && docker-php-ext-enable pdo_mysql
 RUN set -ex; \
 	apt-get update; \
 	apt-get install -y openssh-client rsync;
